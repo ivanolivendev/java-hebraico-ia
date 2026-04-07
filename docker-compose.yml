@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  qdrant:
+    build: .                     # usa o Dockerfile do projeto
+    container_name: qdrant
+    ports:
+      - "6333:6333"              # API REST
+      - "6334:6334"              # gRPC
+    volumes:
+      - ./qdrant_data:/qdrant/storage
+      - ./qdrant_config:/qdrant/config
+    environment:
+      QDRANT__SERVICE__HTTP_PORT: 6333
+      QDRANT__SERVICE__GRPC_PORT: 6334
+      QDRANT__STORAGE__AUTOSAVE_INTERVAL: 1m
+    restart: unless-stopped
